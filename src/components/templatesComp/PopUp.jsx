@@ -8,7 +8,7 @@ export const PopUp = ({children, setPopUpStatus, className, exeptionsRef}) => {
             }
     })
     return (
-        <div className={className} ref={popUpRef}>
+        <div className={className} ref={popUpRef} onClick={(e) => e.stopPropagation()}>
             {children}
         </div>
     )

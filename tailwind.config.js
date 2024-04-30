@@ -13,7 +13,11 @@ export default {
         lg: '36px'
       }
     },
-    extend: {},
+    extend: {
+      zIndex: {
+        '-1': '-1'
+      }
+    },
   },
   plugins: [],
 }
