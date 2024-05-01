@@ -3,6 +3,7 @@ import { Invoices } from '../features/invoice/Invoices';
 
 import { DeleteInvoice } from '../features/invoice/DeleteInvoice';
 import { App } from '../App';
+import { ModifyInvoice } from '../features/invoice/ModifyInvoice';
 
 
 export const Routes = () => {
@@ -21,6 +22,10 @@ export const Routes = () => {
                         {
                             path: 'delete/:invoiceId',
                             element: (<DeleteInvoice />)
+                        },
+                        {
+                            path: 'modify/:invoiceId',
+                            element: (<ModifyInvoice />)
                         }
                     ]
                 },

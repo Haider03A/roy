@@ -18,7 +18,7 @@ export const DeleteInvoice = () => {
     return (
         <PopUpTemp>
             <div className="w-[350px] p-4 bg-white rounded-lg">
-                <h1 className="pb-2 border-b font-semibold">Delete invice</h1>
+                <h1 className="pb-2 border-b font-semibold">Delete invoice</h1>
 
                 {
                     invoices.map((invoice, i) => {

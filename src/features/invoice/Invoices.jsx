@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 
 import { Outlet } from 'react-router-dom';
 
-import { DeleteInvoicBut } from './components/DeleteInvoicBut';
-import { DetailsInvoicBut } from './components/DetailsInvoicBut';
-import { ModifyInvoicBut } from './components/ModifyInvoicBut';
+import { DeleteInvoicBut } from './components/DeleteInvoiceBut';
+import { DetailsInvoicBut } from './components/DetailsInvoiceBut';
+import { ModifyInvoicBut } from './components/ModifyInvoiceBut';
 export const Invoices = () => {
     const { invoices, dateTimeFormat, salesClass } = useSelector(state => state.invoice)
 
