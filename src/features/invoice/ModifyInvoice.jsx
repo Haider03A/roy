@@ -5,10 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, FieldArray } from 'formik';
 
 import { PopUpTemp } from "./components/PopUpTemp"
-import { useEffect, useState } from "react";
+
+import { MaintenanceIcon, ServiceIcon, ProductIcon } from '../../assets/Icons';
 
 export const ModifyInvoice = () => {
-    const { invoices } = useSelector(state => state.invoice)
+    const { invoices, salesClass } = useSelector(state => state.invoice)
 
     const { invoiceId } = useParams();
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ export const ModifyInvoice = () => {
                                         key={i}
                                         initialValues={{
                                             clientName: invoice.clientName,
+                                            discount: invoice.discount,
                                             sales: invoice.sales
                                         }}
                                         onSubmit={(values) => {
@@ -43,46 +45,108 @@ export const ModifyInvoice = () => {
 
                                                     <Form className="flex flex-col gap-y-2"
                                                         onSubmit={formik.handleSubmit}>
-                                                        <div className='flex flex-col justify-between'>
+                                                        <div className='flex flex-col justify-between gap-y-1'>
+                                                            <div className="mt-2 flex items-center justify-between">
+                                                                <span className='text-gray-500'>#{invoice.invoiceId}</span>
+                                                                <div className='h-full flex flex-col items-center text-sm'>
+                                                                    <span>
+                                                                        {new Intl.DateTimeFormat("en-IQ", {
+                                                                            month: 'short',
+                                                                            day: 'numeric',
+                                                                            weekday: 'short',
+                                                                        }).format(new Date(invoice.invoiceCreatedTime))}
+                                                                    </span>
+                                                                    <span className='font-semibold'>
+                                                                        {new Intl.DateTimeFormat("en-IQ", {
+                                                                            hourCycle: "h12",
+                                                                            hour: 'numeric',
+                                                                            minute: 'numeric',
+                                                                        }).format(new Date(invoice.invoiceCreatedTime))}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex gap-x-3 justify-between items-center">
+                                                                <div className="flex flex-col basis-[50%]">
+                                                                    <label htmlFor="clientName"
+                                                                        className="w-fit ml-1 text-gray-600 text-base">Client Name</label>
+                                                                    <input type="text"
+                                                                        className="w-full px-2 py-1 rounded-lg  bg-white shadow border-b-2 border-transparent focus:border-indigo-500 focus:outline-none font-semibold"
+                                                                        name="clientName"
+                                                                        id="clientName"
+                                                                        placeholder="Client name"
+                                                                        value={formik.values.clientName}
+                                                                        onChange={formik.handleChange} />
+                                                                </div>
+                                                                <div className="flex flex-col basis-[50%]">
+                                                                    <label htmlFor="discount"
+                                                                        className="w-fit ml-1 text-gray-600 text-base">Discount</label>
+                                                                    <input type="number"
+                                                                        className="w-full px-2 py-1 rounded-lg bg-white shadow border-b-2 border-transparent focus:border-indigo-500 focus:outline-none font-semibold"
+                                                                        name="discount"
+                                                                        id="discount"
+                                                                        placeholder="Discount"
+                                                                        value={formik.values.discount}
+                                                                        onChange={formik.handleChange} />
+                                                                </div>
+                                                            </div>
 
-                                                            <span className='text-gray-500'>#{invoice.invoiceId}</span>
-                                                            <div>
-                                                                <span>Price: </span>
-                                                                <span className='font-semibold'>{invoice.invoicePrice.toLocaleString()}</span>
-                                                                <span className='text-xs'> IQD</span>
+                                                        </div>
+                                                        <div className='h-20 py-1 flex justify-between items-center'>
+                                                            <div className='flex flex-col justify-between'>
+                                                                <div>
+                                                                    <span>Price: </span>
+                                                                    <span className='font-semibold'>{invoice.invoicePrice.toLocaleString()}</span>
+                                                                    <span className='text-xs'> IQD</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>Cost: </span>
+                                                                    <span className='font-semibold'>{invoice.invoiceCost.toLocaleString()}</span>
+                                                                    <span className='text-xs'> IQD</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>Profit: </span>
+                                                                    <span className='font-semibold'>{invoice.profit.toLocaleString()}</span>
+                                                                    <span className='text-xs'> IQD</span>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <span>Cost: </span>
-                                                                <span className='font-semibold'>{invoice.invoiceCost.toLocaleString()}</span>
-                                                                <span className='text-xs'> IQD</span>
-                                                            </div>
-                                                            <div>
-                                                                <span>Profit: </span>
-                                                                <span className='font-semibold'>{invoice.profit.toLocaleString()}</span>
-                                                                <span className='text-xs'> IQD</span>
+                                                            <div className='h-full flex flex-col justify-between items-center'>
+                                                                <div>
+                                                                    <span>Items: </span>
+                                                                    <span className='font-semibold'>{invoice.sales.length}</span>
+                                                                </div>
+                                                                <div className='flex gap-x-3'>
+                                                                    {
+                                                                        invoice.salesClassIncluded.map((saleCalss, i) =>
+                                                                            saleCalss == 'product' &&
+                                                                            <span key={i} className='w-4 fill-teal-500'>{<ProductIcon />}</span>
+
+                                                                        )
+                                                                    }
+                                                                    {
+                                                                        invoice.salesClassIncluded.map((saleCalss, i) =>
+                                                                            saleCalss == 'maintenance' &&
+                                                                            <span key={i} className='w-4 fill-sky-600'>{<MaintenanceIcon />}</span>
+
+                                                                        )
+                                                                    }
+                                                                    {
+                                                                        invoice.salesClassIncluded.map((saleCalss, i) =>
+                                                                            saleCalss == 'service' &&
+                                                                            <span key={i} className='w-4 fill-cyan-500'>{<ServiceIcon />}</span>
+
+                                                                        )
+                                                                    }
+                                                                </div>
                                                             </div>
                                                         </div>
-
-                                                        <div className="flex flex-col">
-                                                            <label htmlFor="clientName"
-                                                                className="w-fit ml-1 text-gray-600 text-base">Client Name</label>
-                                                            <input type="text"
-                                                                className="w-full px-2 py-1 bg-gray-100 rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
-                                                                name="clientName"
-                                                                id="clientName"
-                                                                placeholder="Client name"
-                                                                value={formik.values.clientName}
-                                                                onChange={formik.handleChange} />
-                                                        </div>
-
-                                                        <ul className="h-[calc(260px*2)] overflow-y-scroll flex flex-col gap-y-2">
+                                                        <ul className="h-[calc(260px*2)] overflow-y-scroll flex flex-col gap-y-3 pb-24 px-1 pt-1">
                                                             <FieldArray
                                                                 name="sales"
                                                                 render={arrayHelpers => (
                                                                     formik.values.sales.map((sale, index) => {
                                                                         return (
                                                                             <li key={sale.saleId}
-                                                                                className="border p-2">
+                                                                                className="odd:bg-gray-100 even:bg-white p-2 text-gray-600 rounded-lg shadow">
                                                                                 <span className='text-gray-500'>#{sale.saleId}</span>
                                                                                 <div className="flex gap-2 flex-wrap">
 
@@ -90,7 +154,7 @@ export const ModifyInvoice = () => {
                                                                                         <label htmlFor={`sales.${index}.saleName`}
                                                                                             className="w-fit ml-1 text-gray-600 text-base">Sale Name</label>
                                                                                         <input type="text"
-                                                                                            className="w-full px-2 py-1 bg-gray-100 rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
+                                                                                            className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                                                             name={`sales.${index}.saleName`}
                                                                                             id={`sales.${index}.saleName`}
                                                                                             placeholder="Sale Name"
@@ -100,8 +164,8 @@ export const ModifyInvoice = () => {
                                                                                     <div className="flex flex-col basis-[30%]">
                                                                                         <label htmlFor={`sales.${index}.salePrice`}
                                                                                             className="w-fit ml-1 text-gray-600 text-base">Sale Price</label>
-                                                                                        <input type="text"
-                                                                                            className="w-full px-2 py-1 bg-gray-100 rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
+                                                                                        <input type="number"
+                                                                                            className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                                                             name={`sales.${index}.salePrice`}
                                                                                             id={`sales.${index}.salePrice`}
                                                                                             placeholder="Sale Price"
@@ -113,8 +177,8 @@ export const ModifyInvoice = () => {
                                                                                         <div className="flex flex-col basis-[60%]">
                                                                                             <label htmlFor={`sales.${index}.saleCost`}
                                                                                                 className="w-fit ml-1 text-gray-600 text-base">Sale cost</label>
-                                                                                            <input type="text"
-                                                                                                className="w-full px-2 py-1 bg-gray-100 rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
+                                                                                            <input type="number"
+                                                                                                className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                                                                 name={`sales.${index}.saleCost`}
                                                                                                 id={`sales.${index}.saleCost`}
                                                                                                 placeholder="Sale cost"
@@ -124,35 +188,74 @@ export const ModifyInvoice = () => {
 
                                                                                         <div className="flex gap-x-4">
                                                                                             <div className="flex flex-col justify-between items-center">
-                                                                                                <label htmlFor={`sales.${index}.currencyDollar`}
+                                                                                                <label htmlFor={`sales.${index}.costCurrencyDollar`}
                                                                                                     className="w-fit ml-1 text-gray-600 text-base">Dollar</label>
                                                                                                 <input type="radio"
-                                                                                                    className="appearance-none w-7 h-7 bg-gray-100 rounded-lg checked:bg-indigo-500"
-                                                                                                    name={`sales.${index}.currency`}
+                                                                                                    className="appearance-none w-7 h-7 bg-white shadow rounded-lg checked:bg-indigo-500"
+                                                                                                    name={`sales.${index}.costCurrency`}
                                                                                                     id={`sales.${index}.currencyDollar`}
                                                                                                     value='dollar'
-                                                                                                    defaultChecked />
+                                                                                                    defaultChecked={sale.costCurrency == 'dollar' ? true : false} />
                                                                                             </div>
                                                                                             <div className="flex flex-col justify-between items-center">
-                                                                                                <label htmlFor={`sales.${index}.currencyIqD`}
+                                                                                                <label htmlFor={`sales.${index}.costCurrencyIqD`}
                                                                                                     className="w-fit ml-1 text-gray-600 text-base">IQD</label>
                                                                                                 <input type="radio"
-                                                                                                    className="appearance-none w-7 h-7 bg-gray-100 rounded-lg checked:bg-indigo-500"
-                                                                                                    name={`sales.${index}.currency`}
-                                                                                                    id={`sales.${index}.currencyIqD`}
-                                                                                                    value='iqd' />
+                                                                                                    className="appearance-none w-7 h-7 bg-white shadow rounded-lg checked:bg-indigo-500"
+                                                                                                    name={`sales.${index}.costCurrency`}
+                                                                                                    id={`sales.${index}.costCurrencyIqD`}
+                                                                                                    value='iqd' 
+                                                                                                    defaultChecked={sale.costCurrency == 'iqd' ? true : false} />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="flex flex-col basis-full">
+                                                                                        <label htmlFor={`sales.${index}.saleClass`}
+                                                                                            className="w-fit ml-1 text-gray-600 text-base">Sale class</label>
+                                                                                        <div className="flex gap-x-7 items-center">
+                                                                                            <select defaultValue={sale.saleClass}
+                                                                                                className="w-[60%] px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
+                                                                                                name={`sales.${index}.saleClass`}
+                                                                                                id={`sales.${index}.saleClass`}
+                                                                                                onChange={formik.handleChange}>
+                                                                                                {salesClass.map(((saleClass, i) => {
+                                                                                                    if (saleClass == sale.saleClass) {
+                                                                                                        return <option key={i} value={saleClass}>{saleClass}</option>
+                                                                                                    }
+                                                                                                    return <option key={i} value={saleClass}>{saleClass}</option>
+                                                                                                }))}
+                                                                                            </select>
+                                                                                            <div className='flex gap-x-3'>
+                                                                                                {
+
+                                                                                                    sale.saleClass == 'product' &&
+                                                                                                    <span className='w-6 fill-teal-500'>{<ProductIcon />}</span>
+
+
+                                                                                                }
+                                                                                                {
+                                                                                                    sale.saleClass == 'maintenance' &&
+                                                                                                    <span className='w-6 fill-sky-600'>{<MaintenanceIcon />}</span>
+
+                                                                                                }
+                                                                                                {
+                                                                                                    sale.saleClass == 'service' &&
+                                                                                                    <span className='w-6 fill-cyan-500'>{<ServiceIcon />}</span>
+
+                                                                                                }
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
 
                                                                                     <div className="flex flex-col basis-full">
                                                                                         <label htmlFor={`sales.${index}.saleNote`}
-                                                                                            className="w-fit ml-1 text-gray-600 text-base">Sale Note</label>
+                                                                                            className="w-fit ml-1 text-gray-600 text-base">Sale note</label>
                                                                                         <textarea type="text"
-                                                                                            className="w-full px-2 py-1 bg-gray-100 rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
+                                                                                            className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                                                             name={`sales.${index}.saleNote`}
                                                                                             id={`sales.${index}.saleNote`}
-                                                                                            placeholder="Sale Note"
+                                                                                            placeholder="Sale note"
                                                                                             value={sale.saleNote}
                                                                                             onChange={formik.handleChange} />
                                                                                     </div>
@@ -165,7 +268,7 @@ export const ModifyInvoice = () => {
                                                         </ul>
 
                                                         <div className="w-full bg-white fixed bottom-0 left-0">
-                                                            <div className="container my-4 flex gap-x-2">
+                                                            <div className="container mb-10 mt-4 flex gap-x-2">
                                                                 <button type="reset" className="py-2 px-3 bg-indigo-500 text-indigo-50 font-medium rounded-lg"
                                                                     onClick={goBackNavigate}>Cansel</button>
                                                                 <button type="submit" className="py-2 px-3 bg-teal-500 text-teal-50 font-medium rounded-lg">Save</button>
