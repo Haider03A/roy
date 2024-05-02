@@ -139,14 +139,14 @@ export const ModifyInvoice = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <ul className="h-[calc(260px*2)] overflow-y-scroll flex flex-col gap-y-3 pb-24 px-1 pt-1">
+                                                        <ul className="snap-mandatory snap-x overflow-y-scroll flex gap-x-3 mb-24 pb-4 px-1 pt-1">
                                                             <FieldArray
                                                                 name="sales"
                                                                 render={arrayHelpers => (
                                                                     formik.values.sales.map((sale, index) => {
                                                                         return (
                                                                             <li key={sale.saleId}
-                                                                                className="odd:bg-gray-100 even:bg-white p-2 text-gray-600 rounded-lg shadow">
+                                                                                className="min-w-full snap-center odd:bg-gray-100 even:bg-white p-2 text-gray-600 rounded-lg shadow">
                                                                                 <span className='text-gray-500'>#{sale.saleId}</span>
                                                                                 <div className="flex gap-2 flex-wrap">
 
