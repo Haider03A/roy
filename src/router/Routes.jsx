@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import { Invoices } from '../features/invoice/Invoices';
 
 import { DeleteInvoice } from '../features/invoice/DeleteInvoice';
@@ -7,7 +7,7 @@ import { ModifyInvoice } from '../features/invoice/ModifyInvoice';
 
 
 export const Routes = () => {
-    const router = createBrowserRouter([
+    const router = createHashRouter([
         {
             element: <App />,
             children: [

@@ -57,9 +57,9 @@ export const DeleteInvoice = () => {
                 }
 
                 <div className="flex gap-x-2 mt-6">
-                    <button className="py-2 px-3 bg-indigo-500 text-indigo-50 font-medium rounded-lg"
+                    <button className="py-2 px-3 bg-indigo-500 active:bg-indigo-600 text-indigo-50 font-medium rounded-lg"
                         onClick={goBackNavigate}>Cansel</button>
-                    <button className="py-2 px-3 bg-rose-500 text-rose-50 font-medium rounded-lg">Delete</button>
+                    <button className="py-2 px-3 bg-rose-500 active:bg-rose-600 text-rose-50 font-medium rounded-lg">Delete</button>
                 </div>
             </div>
         </PopUpTemp>
