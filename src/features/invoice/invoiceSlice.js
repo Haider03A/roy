@@ -4,7 +4,6 @@ const initialState = {
   saleId: 1,
   salesClass: ['product', 'maintenance', 'service'],
   selesNames: ['screen a51s', 'screen s24 plus'],
-  popUpActive: false,
   dateTimeFormat: {
     hourCycle: "h12",
     month: 'short',
@@ -28,6 +27,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 2,
           costCurrency: 'dollar',
           saleClass: 'maintenance',
           saleNote: ''
@@ -37,6 +37,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 5,
           costCurrency: 'iqd',
           saleClass: 'service',
           saleNote: ''
@@ -46,6 +47,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 3,
           costCurrency: 'iqd',
           saleClass: 'service',
           saleNote: ''
@@ -70,6 +72,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 6,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -92,6 +95,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 10,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -114,6 +118,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 5,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -123,6 +128,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -132,6 +138,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -141,6 +148,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -163,6 +171,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -172,6 +181,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -181,6 +191,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -190,6 +201,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -199,6 +211,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -221,6 +234,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -230,6 +244,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -239,6 +254,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -248,6 +264,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -257,6 +274,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -279,6 +297,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -288,6 +307,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -297,6 +317,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -306,6 +327,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -315,6 +337,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -336,6 +359,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -345,6 +369,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -354,6 +379,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -363,6 +389,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'iqd',
           saleClass: 'product',
           saleNote: ''
@@ -372,6 +399,7 @@ const initialState = {
           saleName: 'Screen A51s',
           salePrice: 4000,
           saleCost: 1000,
+          saleCount: 1,
           costCurrency: 'dollar',
           saleClass: 'product',
           saleNote: ''
@@ -387,12 +415,8 @@ const invoiceSlice = createSlice({
   name: 'invoices',
   initialState,
   reducers: {
-    setPopUpActive: (state, actions) => {
-      const statePopUp = actions.payload
-      state.popUpActive = statePopUp
-    }
   },
 })
 
-export const { setPopUpActive } = invoiceSlice.actions
+export const {  } = invoiceSlice.actions
 export const invoiceReducer = invoiceSlice.reducer

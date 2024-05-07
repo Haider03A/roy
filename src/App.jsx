@@ -7,9 +7,8 @@ import './App.css'
 
 
 export const App = () => {
-  const popUpActive = useSelector(state => state.invoice.popUpActive)
   return (
-    <div className={`${popUpActive ? 'h-screen overflow-y-hidden' : ''}`}>
+    <div>
       <Header />
       <main className='container pt-3'>
         <Outlet />

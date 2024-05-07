@@ -8,7 +8,7 @@ import { ModifyInvoicBut } from './components/ModifyInvoiceBut';
 
 import { MaintenanceIcon, ServiceIcon, ProductIcon } from '../../assets/Icons';
 export const Invoices = () => {
-    const { invoices, dateTimeFormat, salesClass } = useSelector(state => state.invoice)
+    const { invoices } = useSelector(state => state.invoice)
 
     return (
         <>
