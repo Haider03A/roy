@@ -7,10 +7,11 @@ import './App.css'
 
 
 export const App = () => {
+  const {popUpActive} = useSelector(state => state.invoice)
   return (
-    <div>
+    <div className='min-h-[500px] h-screen'>
       <Header />
-      <main className='container pt-3'>
+      <main className='h-[calc(100%-64px)] container pt-3'>
         <Outlet />
       </main>
     </div>

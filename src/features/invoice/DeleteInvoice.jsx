@@ -17,7 +17,7 @@ export const DeleteInvoice = () => {
     
     return (
         <PopUpTemp>
-            <div className="w-[350px] p-4 bg-white rounded-lg">
+            <div className="w-[350px] p-4 my-auto bg-white rounded-lg">
                 <h1 className="pb-2 border-b font-semibold">Delete invoice</h1>
 
                 {
@@ -29,8 +29,8 @@ export const DeleteInvoice = () => {
                                     <li>Client name <span className="px-1 bg-gray-100 font-semibold rounded capitalize">{invoice.clientName}</span></li>
                                     <li>Items counts: <span className="px-1 bg-gray-100 font-semibold rounded">{invoice.sales.length}</span></li>
                                     <li>
-                                        Profit: <span className="px-1 bg-teal-500 text-teal-50 font-semibold rounded">
-                                            {invoice.profit.toLocaleString()}
+                                        Price: <span className="px-1 bg-teal-500 text-teal-50 font-semibold rounded">
+                                            {invoice.invoicePrice.toLocaleString()}
                                             <span className="text-xs"> IQD</span>
                                         </span>
 

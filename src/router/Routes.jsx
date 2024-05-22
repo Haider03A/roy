@@ -5,6 +5,8 @@ import { DeleteInvoice } from '../features/invoice/DeleteInvoice';
 import { App } from '../App';
 import { ModifyInvoice } from '../features/invoice/ModifyInvoice';
 import { AddSale } from '../features/invoice/AddSale';
+import { DeleteSale } from '../features/invoice/DeleteSale';
+import { CreateInvoice } from '../features/invoice/CreateInvoice';
 
 
 export const Routes = () => {
@@ -23,19 +25,27 @@ export const Routes = () => {
                         {
                             path: 'delete/:invoiceId',
                             element: (<DeleteInvoice />)
-                        }
-                    ]
-                },
-                {
-                    path: '/invoices/modify/:invoiceId',
-                    element: (<ModifyInvoice />),
-                    children: [
+                        },
                         {
-                            path: 'addsale',
-                            element: (<AddSale />)
-                        }
+                            path: 'addInvoice',
+                            element: (<CreateInvoice />)
+                        },
+                        {
+                            path: '/invoices/modify/:invoiceId',
+                            element: (<ModifyInvoice />),
+                            children: [
+                                {
+                                    path: 'addsale',
+                                    element: (<AddSale />)
+                                },
+                                {
+                                    path: 'deleteSale/:saleId',
+                                    element: (<DeleteSale />)
+                                }
+                            ]
+        
+                        },
                     ]
-
                 },
                 {
                     path: '/statistics',

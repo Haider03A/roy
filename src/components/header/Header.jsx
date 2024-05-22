@@ -9,7 +9,7 @@ export const Header = () => {
     const optionsOpenButtonRef = useRef(null)
     const navBarOpenButtonRef = useRef(null)
     return (
-        <header className="shadow">
+        <header className="shadow h-16 flex items-center">
             <main className="container h-16 flex justify-between items-center relative">
                 <div className="flex justify-between items-center gap-x-8">
                     <MainButton reference={navBarOpenButtonRef} onClick={() => setNavBarActive(true)}>
