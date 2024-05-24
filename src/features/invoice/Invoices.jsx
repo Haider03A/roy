@@ -14,7 +14,7 @@ export const Invoices = () => {
     return (
         <>
             <Outlet />
-            <ul className='h-[calc(100%-150px)] flex flex-col gap-y-3 pb-3 overflow-y-scroll'>
+            <ul className='h-[calc(100%-75px)] flex flex-col gap-y-3 pb-3 overflow-y-scroll'>
                 {
                     invoices.map(invoice => {
                         return (

@@ -12,7 +12,7 @@ const initialState = {
     hour: '2-digit',
     minute: '2-digit',
   },
-  popUpActive: false,
+  costumKeysActive: false,
   invoices: [
     {
       invoiceId: 1,
@@ -445,11 +445,11 @@ const invoiceSlice = createSlice({
   name: 'invoices',
   initialState,
   reducers: {
-    setPopUpActive: (state, actions) => {
-      state.popUpActive = actions.payload
+    setCostumKeysActive: (state, actions) => {
+      state.costumKeysActive = actions.payload
     }
   },
 })
 
-export const { setPopUpActive } = invoiceSlice.actions
+export const { setCostumKeysActive } = invoiceSlice.actions
 export const invoiceReducer = invoiceSlice.reducer

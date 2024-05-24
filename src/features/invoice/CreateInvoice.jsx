@@ -81,14 +81,15 @@ export const CreateInvoice = () => {
                                             <div className="flex flex-col basis-[30%]">
                                                 <label htmlFor='discount'
                                                     className="w-fit ml-1 text-gray-600 text-base">Discount</label>
-                                                <input type="number"
+                                                <input type="text" inputMode='none'
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='discount'
                                                     id='discount'
                                                     placeholder="Discount"
                                                     value={formik.values.discount}
                                                     onChange={formik.handleChange} 
-                                                    onFocus={(e) => e.target.select()} />
+                                                    onFocus={(e) => e.target.select()}
+                                                    onPaste={(e) => e.preventDefault()} />
                                             </div>
                                         </div>
                                         <div className='min-w-full p-1 flex flex-wrap gap-3 snap-center snap-always'>
@@ -108,27 +109,29 @@ export const CreateInvoice = () => {
                                             <div className="flex flex-col basis-[30%]">
                                                 <label htmlFor='salePrice'
                                                     className="w-fit ml-1 text-gray-600 text-base">Sale Price</label>
-                                                <input type="number"
+                                                <input type="text" inputMode='none'
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='salePrice'
                                                     id='salePrice'
                                                     placeholder="Sale Price"
                                                     value={formik.values.salePrice}
                                                     onChange={formik.handleChange}
-                                                    onFocus={(e) => e.target.select()} />
+                                                    onFocus={(e) => e.target.select()}
+                                                    onPaste={(e) => e.preventDefault()} />
                                             </div>
                                             <div className="flex gap-x-4 basis-full">
                                                 <div className="flex flex-col basis-[60%]">
                                                     <label htmlFor='saleCost'
                                                         className="w-fit ml-1 text-gray-600 text-base">Sale cost</label>
-                                                    <input type="number"
+                                                    <input type="text" inputMode='none'
                                                         className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                         name='saleCost'
                                                         id='saleCost'
                                                         placeholder="Sale cost"
                                                         value={formik.values.saleCost}
                                                         onChange={formik.handleChange}
-                                                        onFocus={(e) => e.target.select()} />
+                                                        onFocus={(e) => e.target.select()}
+                                                        onPaste={(e) => e.preventDefault()} />
                                                 </div>
 
                                                 <div className="flex gap-x-4">
@@ -165,14 +168,15 @@ export const CreateInvoice = () => {
                                                 <div className="flex flex-col basis-[25%]">
                                                     <label htmlFor='saleCount'
                                                         className="w-fit ml-1 text-gray-600 text-base">Sale count</label>
-                                                    <input type="number"
+                                                    <input type="text" inputMode='none'
                                                         className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                         name='saleCount'
                                                         id='saleCount'
                                                         placeholder="Sale count"
                                                         value={formik.values.saleCount}
                                                         onChange={formik.handleChange}
-                                                        onFocus={(e) => e.target.select()} />
+                                                        onFocus={(e) => e.target.select()}
+                                                        onPaste={(e) => e.preventDefault()} />
                                                 </div>
                                                 <div className="flex flex-col justify-between items-center">
                                                     <label htmlFor='saleClassProduct'

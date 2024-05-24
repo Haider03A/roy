@@ -14,6 +14,9 @@ export default {
       }
     },
     extend: {
+      gridTemplateRows: {
+        '20': 'repeat(20, minmax(0, 1fr))',
+      },
       zIndex: {
         '-1': '-1'
       }

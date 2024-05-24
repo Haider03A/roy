@@ -111,14 +111,15 @@ export const ModifyInvoice = () => {
                                                                 <div className="flex flex-col basis-[50%]">
                                                                     <label htmlFor="discount"
                                                                         className="w-fit ml-1 text-gray-600 text-base">Discount</label>
-                                                                    <input type="number"
+                                                                    <input type="text" inputMode="none"
                                                                         className="w-full px-2 py-1 rounded-lg bg-white shadow border-b-2 border-transparent focus:border-indigo-500 focus:outline-none font-semibold"
                                                                         name="discount"
                                                                         id="discount"
                                                                         placeholder="Discount"
                                                                         value={formik.values.discount}
                                                                         onChange={formik.handleChange}
-                                                                        onFocus={(e) => e.target.select()} />
+                                                                        onFocus={(e) => e.target.select()}
+                                                                        onPaste={(e) => e.preventDefault()} />
                                                                 </div>
                                                             </div>
 
@@ -206,28 +207,30 @@ export const ModifyInvoice = () => {
                                                                                     <div className="flex flex-col basis-[30%]">
                                                                                         <label htmlFor={`sales.${index}.salePrice`}
                                                                                             className="w-fit ml-1 text-gray-600 text-base">Sale Price</label>
-                                                                                        <input type="number"
+                                                                                        <input type="text" inputMode="none"
                                                                                             className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                                                             name={`sales.${index}.salePrice`}
                                                                                             id={`sales.${index}.salePrice`}
                                                                                             placeholder="Sale Price"
                                                                                             value={sale.salePrice}
                                                                                             onChange={formik.handleChange}
-                                                                                            onFocus={(e) => e.target.select()} />
+                                                                                            onFocus={(e) => e.target.select()}
+                                                                                            onPaste={(e) => e.preventDefault()} />
                                                                                     </div>
                                                                                     <div className="flex gap-x-4 basis-full">
 
                                                                                         <div className="flex flex-col basis-[60%]">
                                                                                             <label htmlFor={`sales.${index}.saleCost`}
                                                                                                 className="w-fit ml-1 text-gray-600 text-base">Sale cost</label>
-                                                                                            <input type="number"
+                                                                                            <input type="text" inputMode="none"
                                                                                                 className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                                                                 name={`sales.${index}.saleCost`}
                                                                                                 id={`sales.${index}.saleCost`}
                                                                                                 placeholder="Sale cost"
                                                                                                 value={sale.saleCost}
                                                                                                 onChange={formik.handleChange}
-                                                                                                onFocus={(e) => e.target.select()} />
+                                                                                                onFocus={(e) => e.target.select()}
+                                                                                                onPaste={(e) => e.preventDefault()} />
                                                                                         </div>
 
                                                                                         <div className="flex gap-x-4">
@@ -263,14 +266,15 @@ export const ModifyInvoice = () => {
                                                                                         <div className="flex flex-col basis-[20%]">
                                                                                             <label htmlFor={`sales.${index}.saleCount`}
                                                                                                 className="w-fit ml-1 text-gray-600 text-base">Item</label>
-                                                                                            <input type="number"
+                                                                                            <input type="text" inputMode="none"
                                                                                                 className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                                                                 name={`sales.${index}.saleCount`}
                                                                                                 id={`sales.${index}.saleCount`}
                                                                                                 placeholder="Item"
                                                                                                 value={sale.saleCount}
                                                                                                 onChange={formik.handleChange}
-                                                                                                onFocus={(e) => e.target.select()} />
+                                                                                                onFocus={(e) => e.target.select()}
+                                                                                                onPaste={(e) => e.preventDefault()} />
                                                                                         </div>
                                                                                         <div className="flex flex-col justify-between items-center">
                                                                                             <label htmlFor={`sales.${index}.saleClassProduct`}
