@@ -15,7 +15,7 @@ export const Invoices = () => {
         <>
             <Outlet />
             <ul className='h-[calc(100%-75px)] flex flex-col gap-y-3 pb-3 overflow-y-scroll'>
-                {
+                {invoices.length != 0 ?
                     invoices.map(invoice => {
                         return (
                             <li key={invoice.invoiceId}
@@ -105,6 +105,7 @@ export const Invoices = () => {
                             </li>
                         )
                     })
+                    : <span className="h-28 text-gray-500 flex items-center justify-center">Add invoice to show here</span>
                 }
             </ul>
             <CreateInvoiceBut />

@@ -4,6 +4,9 @@ import { Formik, Form } from 'formik';
 
 import { useNavigate } from "react-router-dom";
 
+import { useDispatch } from 'react-redux';
+import { addInvoice } from '../invoice/invoiceSlice'
+
 import { PopUpTemp } from "./components/PopUpTemp"
 import { MaintenanceIcon, ServiceIcon, ProductIcon } from '../../assets/Icons';
 
@@ -11,6 +14,8 @@ export const CreateInvoice = () => {
     const [saleNodeActive, setSaleNodeActive] = useState(false)
     const saleNameRef = useRef(null)
     const saleNodeRef = useRef(null)
+
+    const dispatch = useDispatch();
 
 
     const navigate = useNavigate();
@@ -34,6 +39,22 @@ export const CreateInvoice = () => {
         }
     }, [])
 
+    const addItemToInvoice = async (formik, e) => {
+        const { clientName, discount, saleName, salePrice, saleCost, costCurrency, saleClass, saleCount, saleNote, sales } = formik.values
+        await formik.setValues({
+            clientName,
+            discount,
+            saleName: 'null',
+            salePrice: 0,
+            saleCost: 0,
+            costCurrency,
+            saleClass,
+            saleCount: 1,
+            saleNote: '',
+            sales: [...sales, { saleName, salePrice, saleCost, costCurrency, saleClass, saleCount, saleNote }]
+        })
+    }
+
     return (
         <PopUpTemp>
             <div className="container p-4 bg-white rounded-lg">
@@ -43,17 +64,27 @@ export const CreateInvoice = () => {
                     initialValues={{
                         clientName: 'Unknown',
                         discount: 0,
-                        saleName: '',
+                        saleName: 'null',
                         salePrice: 0,
                         saleCost: 0,
                         costCurrency: 'dollar',
                         saleClass: 'product',
                         saleCount: 1,
                         saleNote: '',
+                        sales: []
                     }}
                     onSubmit={(values) => {
-                        
-                        console.log(values);
+                        const { clientName, discount, saleName, salePrice, saleCost, costCurrency, saleClass, saleCount, saleNote, sales } = values
+                        if (sales.length == 0) return
+                        const invoice = {
+                            clientName,
+                            invoiceCreatedTime: new Date().toISOString(),
+                            discount,
+                            sales
+                        }
+
+                        dispatch(addInvoice(invoice))
+                        goBackNavigate()
                     }}
                     onReset={(values) => {
                         values.clientName = values.clientName
@@ -81,15 +112,15 @@ export const CreateInvoice = () => {
                                             <div className="flex flex-col basis-[30%]">
                                                 <label htmlFor='discount'
                                                     className="w-fit ml-1 text-gray-600 text-base">Discount</label>
-                                                <input type="text" inputMode='none'
+                                                <input type="number"
+                                                    min={0}
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='discount'
                                                     id='discount'
                                                     placeholder="Discount"
                                                     value={formik.values.discount}
-                                                    onChange={formik.handleChange} 
-                                                    onFocus={(e) => e.target.select()}
-                                                    onPaste={(e) => e.preventDefault()} />
+                                                    onChange={formik.handleChange}
+                                                    onFocus={(e) => e.target.select()} />
                                             </div>
                                         </div>
                                         <div className='min-w-full p-1 flex flex-wrap gap-3 snap-center snap-always'>
@@ -109,29 +140,27 @@ export const CreateInvoice = () => {
                                             <div className="flex flex-col basis-[30%]">
                                                 <label htmlFor='salePrice'
                                                     className="w-fit ml-1 text-gray-600 text-base">Sale Price</label>
-                                                <input type="text" inputMode='none'
+                                                <input type="number"
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='salePrice'
                                                     id='salePrice'
                                                     placeholder="Sale Price"
                                                     value={formik.values.salePrice}
                                                     onChange={formik.handleChange}
-                                                    onFocus={(e) => e.target.select()}
-                                                    onPaste={(e) => e.preventDefault()} />
+                                                    onFocus={(e) => e.target.select()} />
                                             </div>
                                             <div className="flex gap-x-4 basis-full">
                                                 <div className="flex flex-col basis-[60%]">
                                                     <label htmlFor='saleCost'
                                                         className="w-fit ml-1 text-gray-600 text-base">Sale cost</label>
-                                                    <input type="text" inputMode='none'
+                                                    <input type="number"
                                                         className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                         name='saleCost'
                                                         id='saleCost'
                                                         placeholder="Sale cost"
                                                         value={formik.values.saleCost}
                                                         onChange={formik.handleChange}
-                                                        onFocus={(e) => e.target.select()}
-                                                        onPaste={(e) => e.preventDefault()} />
+                                                        onFocus={(e) => e.target.select()} />
                                                 </div>
 
                                                 <div className="flex gap-x-4">
@@ -165,18 +194,18 @@ export const CreateInvoice = () => {
                                             </div>
 
                                             <div className="flex flex-wrap basis-full gap-3">
-                                                <div className="flex flex-col basis-[25%]">
+                                                <div className="flex flex-col basis-[22%]">
                                                     <label htmlFor='saleCount'
-                                                        className="w-fit ml-1 text-gray-600 text-base">Sale count</label>
-                                                    <input type="text" inputMode='none'
+                                                        className="w-fit ml-1 text-gray-600 text-base">Count</label>
+                                                    <input type="number"
+                                                        min={1}
                                                         className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                         name='saleCount'
                                                         id='saleCount'
-                                                        placeholder="Sale count"
+                                                        placeholder="count"
                                                         value={formik.values.saleCount}
                                                         onChange={formik.handleChange}
-                                                        onFocus={(e) => e.target.select()}
-                                                        onPaste={(e) => e.preventDefault()} />
+                                                        onFocus={(e) => e.target.select()} />
                                                 </div>
                                                 <div className="flex flex-col justify-between items-center">
                                                     <label htmlFor='saleClassProduct'
@@ -250,15 +279,72 @@ export const CreateInvoice = () => {
 
                                             </div>
                                         </div>
+                                        <div className="min-w-full max-h-[300px] p-1 snap-center snap-always overflow-auto">
+                                            {
+                                                formik.values.sales.length > 0 ?
+                                                    <table className='w-full'>
+                                                        <thead className='w-full'>
+                                                            <tr>
+                                                                <th scope="col" className='px-3 py-2 text-gray-600 text-left'>NO</th>
+                                                                <th scope="col" className='px-3 py-2 text-gray-600 text-left'>Name</th>
+                                                                <th scope="col" className='px-3 py-2 text-gray-600 text-left'>Price</th>
+                                                                <th scope="col" className='px-3 py-2 text-gray-600 text-left'>Cost</th>
+                                                                <th scope="col" className='px-3 py-2 text-gray-600 text-left'>Count</th>
+                                                                <th scope="col" className='px-3 py-2 text-gray-600 text-left'>Class</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {
+                                                                formik.values.sales.map((sale, i) => {
+                                                                    return (
+                                                                        <tr key={i} className='odd:bg-gray-50'>
+                                                                            <td className='p-3'>{i + 1}</td>
+                                                                            <td className='p-3'>{sale.saleName}</td>
+                                                                            <td className='p-3 space-x-1'>
+                                                                                <span>
+                                                                                    {sale.salePrice.toLocaleString()}
+                                                                                </span>
+                                                                                <span className='text-[10px] bg-indigo-500 text-indigo-100 rounded px-1'>IQD</span>
+                                                                            </td>
+                                                                            <td className='p-3 space-x-1'>
+                                                                                <span>
+                                                                                    {sale.saleCost.toLocaleString()}
+                                                                                </span>
+                                                                                <span className={`text-[10px] rounded px-1 ${sale.costCurrency == 'dollar' ? 'bg-teal-500 text-teal-100' : 'bg-indigo-500 text-indigo-100'}`}>{sale.costCurrency == 'dollar' ? '$' : 'IQD'}</span>
+                                                                            </td>
+                                                                            <td className='p-3'>{sale.saleCount}</td>
+                                                                            <td className='p-3'>
+                                                                                {sale.saleClass == 'service' &&
+                                                                                    <span key={i} className='w-4 block fill-cyan-500'>{<ServiceIcon />}</span>}
+
+                                                                                {sale.saleClass == 'maintenance' &&
+                                                                                    <span key={i} className='w-4 block fill-sky-600'>{<MaintenanceIcon />}</span>}
+
+                                                                                {sale.saleClass == 'product' &&
+                                                                                    <span key={i} className='w-4 block fill-teal-500'>{<ProductIcon />}</span>}
+
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </tbody>
+                                                    </table> :
+                                                    <div className='h-full flex justify-center items-center'>
+                                                        <h1 className='text-lg font-medium text-gray-600'>No Item </h1>
+                                                    </div>
+                                            }
+
+                                        </div>
                                     </div>
 
                                     <div className="flex justify-between gap-x-2 mt-6">
                                         <div className='flex gap-x-2'>
                                             <button type="button" className="py-2 px-3 bg-indigo-500 active:bg-indigo-600 text-indigo-50 font-medium rounded-lg"
                                                 onClick={goBackNavigate}>Cansel</button>
-                                            <button type="submit"  onClick={formik.handleSubmit} className="py-2 px-3 bg-teal-500 active:bg-teal-600 text-teal-50 font-medium rounded-lg">Create</button>
+                                            <button type="submit" onClick={formik.handleSubmit} className="py-2 px-3 bg-teal-500 active:bg-teal-600 text-teal-50 font-medium rounded-lg">Create</button>
                                         </div>
-                                        <button type="reset" onClick={formik.handleReset} className='w-9 h-9 flex justify-center items-center bg-sky-500 active:bg-sky-600 text-center rounded-lg'>
+                                        <button type="button" onClick={(e) => addItemToInvoice(formik, e)} className='w-9 h-9 flex justify-center items-center bg-sky-500 active:bg-sky-600 text-center rounded-lg'>
                                             <svg className='w-5 h-5 fill-sky-50' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" /></svg>
                                         </button>
                                     </div>

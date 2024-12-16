@@ -1,4 +1,4 @@
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Invoices } from '../features/invoice/Invoices';
 
 import { DeleteInvoice } from '../features/invoice/DeleteInvoice';
@@ -10,7 +10,7 @@ import { CreateInvoice } from '../features/invoice/CreateInvoice';
 
 
 export const Routes = () => {
-    const router = createHashRouter([
+    const router = createBrowserRouter([
         {
             element: <App />,
             children: [
@@ -43,7 +43,7 @@ export const Routes = () => {
                                     element: (<DeleteSale />)
                                 }
                             ]
-        
+
                         },
                     ]
                 },
