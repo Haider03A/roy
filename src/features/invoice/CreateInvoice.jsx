@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 
 import { Formik, Form } from 'formik';
 
@@ -10,9 +10,11 @@ import { addInvoice } from '../invoice/invoiceSlice'
 import { PopUpTemp } from "./components/PopUpTemp"
 import { MaintenanceIcon, ServiceIcon, ProductIcon } from '../../assets/Icons';
 
+
+
 export const CreateInvoice = () => {
     const [saleNodeActive, setSaleNodeActive] = useState(false)
-    const saleNameRef = useRef(null)
+    const salePriceRef = useRef(null)
     const saleNodeRef = useRef(null)
 
     const dispatch = useDispatch();
@@ -33,38 +35,39 @@ export const CreateInvoice = () => {
 
 
     useEffect(() => {
-        if (saleNameRef.current) {
-
-            saleNameRef.current.focus()
+        if (salePriceRef.current) {
+            salePriceRef.current.focus()
         }
     }, [])
 
-    const addItemToInvoice = async (formik, e) => {
+
+    const addInvoiceToInvoices = (formik) => {
         const { clientName, discount, saleName, salePrice, saleCost, costCurrency, saleClass, saleCount, saleNote, sales } = formik.values
-        await formik.setValues({
+
+        if (sales.length == 0) return;
+
+
+        const invoice = {
             clientName,
+            invoiceCreatedTime: new Date().toISOString(),
             discount,
-            saleName: 'null',
-            salePrice: 0,
-            saleCost: 0,
-            costCurrency,
-            saleClass,
-            saleCount: 1,
-            saleNote: '',
-            sales: [...sales, { saleName, salePrice, saleCost, costCurrency, saleClass, saleCount, saleNote }]
-        })
+            sales
+        }
+
+        dispatch(addInvoice(invoice))
+        goBackNavigate()
     }
 
     return (
         <PopUpTemp>
             <div className="container p-4 bg-white rounded-lg">
-                <h1 className="pb-2 border-b font-semibold">Create invoice</h1>
+
 
                 <Formik
                     initialValues={{
-                        clientName: 'Unknown',
+                        clientName: 'unknow',
                         discount: 0,
-                        saleName: 'null',
+                        saleName: 'some',
                         salePrice: 0,
                         saleCost: 0,
                         costCurrency: 'dollar',
@@ -73,18 +76,25 @@ export const CreateInvoice = () => {
                         saleNote: '',
                         sales: []
                     }}
-                    onSubmit={(values) => {
+                    onSubmit={async (values, formik) => {
                         const { clientName, discount, saleName, salePrice, saleCost, costCurrency, saleClass, saleCount, saleNote, sales } = values
-                        if (sales.length == 0) return
-                        const invoice = {
-                            clientName,
-                            invoiceCreatedTime: new Date().toISOString(),
-                            discount,
-                            sales
-                        }
+                        if (saleCount == 0 || salePrice == 0 || saleCost == 0) return;
 
-                        dispatch(addInvoice(invoice))
-                        goBackNavigate()
+                        const newSales = [...sales, { saleName, salePrice, saleCost, costCurrency, saleClass, saleCount, saleNote }]
+                        const newInputsValues = {
+                            clientName,
+                            discount,
+                            saleName: 'some',
+                            salePrice: 0,
+                            saleCost: 0,
+                            costCurrency,
+                            saleClass,
+                            saleCount: 1,
+                            saleNote: '',
+                            sales: newSales
+                        }
+                        await formik.setValues(newInputsValues)
+                        salePriceRef.current.focus()
                     }}
                     onReset={(values) => {
                         values.clientName = values.clientName
@@ -93,9 +103,13 @@ export const CreateInvoice = () => {
                     {
                         (formik) => {
                             return (
-                                <Form className='mt-3'
+                                <Form
                                     onSubmit={formik.handleSubmit}>
-                                    <div className='w-full flex gap-x-4 snap-mandatory snap-x overflow-x-scroll'>
+                                    <div className="pb-2 flex justify-between border-b">
+                                        <h1 className="font-semibold">Create invoice</h1>
+                                        <span className='bg-indigo-500 py-1 px-2 text-sm text-white rounded'>{formik.values.sales.length}</span>
+                                    </div>
+                                    <div className='mt-1 w-full flex gap-x-4 snap-mandatory snap-x overflow-x-scroll'>
                                         <div className='min-w-full p-1 flex gap-x-3 snap-center snap-always'>
                                             <div className="flex flex-col basis-[60%]">
                                                 <label htmlFor='clientName'
@@ -128,7 +142,6 @@ export const CreateInvoice = () => {
                                                 <label htmlFor='saleName'
                                                     className="w-fit ml-1 text-gray-600 text-base">Sale Name</label>
                                                 <input type="text"
-                                                    ref={saleNameRef}
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='saleName'
                                                     id='saleName'
@@ -141,6 +154,7 @@ export const CreateInvoice = () => {
                                                 <label htmlFor='salePrice'
                                                     className="w-fit ml-1 text-gray-600 text-base">Sale Price</label>
                                                 <input type="number"
+                                                    ref={salePriceRef}
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='salePrice'
                                                     id='salePrice'
@@ -342,9 +356,9 @@ export const CreateInvoice = () => {
                                         <div className='flex gap-x-2'>
                                             <button type="button" className="py-2 px-3 bg-indigo-500 active:bg-indigo-600 text-indigo-50 font-medium rounded-lg"
                                                 onClick={goBackNavigate}>Cansel</button>
-                                            <button type="submit" onClick={formik.handleSubmit} className="py-2 px-3 bg-teal-500 active:bg-teal-600 text-teal-50 font-medium rounded-lg">Create</button>
+                                            <button type="button" onClick={(e) => addInvoiceToInvoices(formik)} className="py-2 px-3 bg-teal-500 active:bg-teal-600 text-teal-50 font-medium rounded-lg">Create</button>
                                         </div>
-                                        <button type="button" onClick={(e) => addItemToInvoice(formik, e)} className='w-9 h-9 flex justify-center items-center bg-sky-500 active:bg-sky-600 text-center rounded-lg'>
+                                        <button type="submit" onClick={formik.handleSubmit} className='w-9 h-9 flex justify-center items-center bg-sky-500 active:bg-sky-600 text-center rounded-lg'>
                                             <svg className='w-5 h-5 fill-sky-50' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" /></svg>
                                         </button>
                                     </div>

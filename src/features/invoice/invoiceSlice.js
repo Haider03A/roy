@@ -2,17 +2,17 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   invoiceId: 1,
   saleId: 1,
-  salesClass: ['product', 'maintenance', 'service'],
   dollarExchangeRate: 1500,
-  selesNames: ['screen a51s', 'screen s24 plus'],
-  dateTimeFormat: {
-    hourCycle: "h12",
-    month: 'short',
-    day: 'numeric',
-    weekday: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-  },
+  // salesClass: ['product', 'maintenance', 'service'],
+  // selesNames: ['screen a51s', 'screen s24 plus'],
+  // dateTimeFormat: {
+  //   hourCycle: "h12",
+  //   month: 'short',
+  //   day: 'numeric',
+  //   weekday: 'short',
+  //   hour: '2-digit',
+  //   minute: '2-digit',
+  // },
   invoices: [
     // {
     //   invoiceCreatedTime: '2024-04-28T19:23:00.251Z',
@@ -476,10 +476,26 @@ const invoiceSlice = createSlice({
 
     },
     deleteInvoice: (state, action) => {
+      const { invoiceId } = action.payload;
+      const newInvoices = state.invoices.filter(invoice => {
 
+        if (invoice.invoiceId == invoiceId) return;
+        return invoice
+      })
+
+      state.invoices = newInvoices
+    },
+    localStorageManger: (state, action) => {
+      const { invoiceId, saleId, invoices, dollarExchangeRate } = action.payload
+      state.invoiceId = invoiceId
+      state.saleId = saleId
+      state.invoices = invoices
+      state.dollarExchangeRate = dollarExchangeRate
     }
   },
 })
 
-export const { addInvoice, deleteInvoice } = invoiceSlice.actions
+export const { addInvoice, deleteInvoice, localStorageManger } = invoiceSlice.actions
 export const invoiceReducer = invoiceSlice.reducer
+
+export const invoiceSliceShared = (state) => state.invoiceSlice

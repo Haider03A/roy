@@ -3,18 +3,26 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { PopUpTemp } from "./components/PopUpTemp"
+import { deleteInvoice } from '../invoice/invoiceSlice'
 
 export const DeleteInvoice = () => {
-    const { invoices } = useSelector(state => state.invoice)
 
     const { invoiceId } = useParams();
     const navigate = useNavigate();
 
+    const { invoices } = useSelector(state => state.invoice)
+    const dispatch = useDispatch();
+
     const goBackNavigate = () => {
         navigate('../..', { relative: "path", replace: true })
-        
+
     }
-    
+
+    const deleteInvoiceHandler = () => {
+        dispatch(deleteInvoice({ invoiceId }))
+        goBackNavigate()
+    }
+
     return (
         <PopUpTemp>
             <div className="w-[350px] p-4 my-auto bg-white rounded-lg">
@@ -59,7 +67,8 @@ export const DeleteInvoice = () => {
                 <div className="flex gap-x-2 mt-6">
                     <button className="py-2 px-3 bg-indigo-500 active:bg-indigo-600 text-indigo-50 font-medium rounded-lg"
                         onClick={goBackNavigate}>Cansel</button>
-                    <button className="py-2 px-3 bg-rose-500 active:bg-rose-600 text-rose-50 font-medium rounded-lg">Delete</button>
+                    <button className="py-2 px-3 bg-rose-500 active:bg-rose-600 text-rose-50 font-medium rounded-lg"
+                        onClick={deleteInvoiceHandler}>Delete</button>
                 </div>
             </div>
         </PopUpTemp>

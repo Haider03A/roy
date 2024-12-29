@@ -7,6 +7,7 @@ import { ModifyInvoice } from '../features/invoice/ModifyInvoice';
 import { AddSale } from '../features/invoice/AddSale';
 import { DeleteSale } from '../features/invoice/DeleteSale';
 import { CreateInvoice } from '../features/invoice/CreateInvoice';
+import { DetailsInvoice } from '../features/invoice/DetailsInvoice';
 
 
 export const Routes = () => {
@@ -45,6 +46,10 @@ export const Routes = () => {
                             ]
 
                         },
+                        {
+                            path: 'details/:invoiceId',
+                            element: (<DetailsInvoice />)
+                        }
                     ]
                 },
                 {
