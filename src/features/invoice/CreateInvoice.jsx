@@ -9,12 +9,14 @@ import { addInvoice } from '../invoice/invoiceSlice'
 
 import { PopUpTemp } from "./components/PopUpTemp"
 import { MaintenanceIcon, ServiceIcon, ProductIcon } from '../../assets/Icons';
+import { QrcodeScanner } from './QrcodeScanner'
 
 
 
 export const CreateInvoice = () => {
     const [saleNodeActive, setSaleNodeActive] = useState(false)
-    const salePriceRef = useRef(null)
+    const [qrcodeBoxActive, setQrcodeBoxActive] = useState(false)
+    const saleNameRef = useRef(null)
     const saleNodeRef = useRef(null)
 
     const dispatch = useDispatch();
@@ -35,8 +37,9 @@ export const CreateInvoice = () => {
 
 
     useEffect(() => {
-        if (salePriceRef.current) {
-            salePriceRef.current.focus()
+        if (saleNameRef.current) {
+            // saleNameRef.current.focus()
+            setQrcodeBoxActive(true)
         }
     }, [])
 
@@ -58,6 +61,12 @@ export const CreateInvoice = () => {
         goBackNavigate()
     }
 
+    const onScanSuccessQrcode = (decodedText) => {
+        setQrcodeBoxActive(false)
+        alert(decodedText)
+        saleNameRef.current.value = decodedText
+        saleNameRef.current.focus()
+    }
     return (
         <PopUpTemp>
             <div className="container p-4 bg-white rounded-lg">
@@ -94,7 +103,7 @@ export const CreateInvoice = () => {
                             sales: newSales
                         }
                         await formik.setValues(newInputsValues)
-                        salePriceRef.current.focus()
+                        saleNameRef.current.focus()
                     }}
                     onReset={(values) => {
                         values.clientName = values.clientName
@@ -105,6 +114,11 @@ export const CreateInvoice = () => {
                             return (
                                 <Form
                                     onSubmit={formik.handleSubmit}>
+                                    {
+                                        qrcodeBoxActive ?
+                                            <QrcodeScanner onScanSuccess={onScanSuccessQrcode} />
+                                            : null
+                                    }
                                     <div className="pb-2 flex justify-between border-b">
                                         <h1 className="font-semibold">Create invoice</h1>
                                         <span className='bg-indigo-500 py-1 px-2 text-sm text-white rounded'>{formik.values.sales.length}</span>
@@ -142,6 +156,7 @@ export const CreateInvoice = () => {
                                                 <label htmlFor='saleName'
                                                     className="w-fit ml-1 text-gray-600 text-base">Sale Name</label>
                                                 <input type="text"
+                                                    ref={saleNameRef}
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='saleName'
                                                     id='saleName'
@@ -154,7 +169,6 @@ export const CreateInvoice = () => {
                                                 <label htmlFor='salePrice'
                                                     className="w-fit ml-1 text-gray-600 text-base">Sale Price</label>
                                                 <input type="number"
-                                                    ref={salePriceRef}
                                                     className="w-full px-2 py-1 bg-white shadow rounded-lg border-b-2 border-transparent focus:border-indigo-500 focus:outline-none"
                                                     name='salePrice'
                                                     id='salePrice'
